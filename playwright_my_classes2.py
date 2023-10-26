@@ -34,12 +34,25 @@ class ParcerStatesHabr(IParcerStates, IBrowser, IUserAgent):
                 textbox.press("Enter")
 
                 # Костыль, нужно понять как сделать скрин (beatsoup), после прогрузки страницы
-                time.sleep(2)
+                #time.sleep(2)
                 #self.page.wait_for_load_state() # не работает
+                #Нужно использовать Xpuff и Auto-waiting (Нашел другое решение, нужно спросить норм ли оно)
+                expect(self.page.locator("em")).to_be_enabled()
 
                 self.page.screenshot(path=f"Habs {i}.png")
 
                 j += 1
+                hub = self.page.locator('em')
+                parent = hub.locator('xpath=..')
+                #print(parent.inner_html())
+                grandparent = parent.locator('xpath=..')
+                #print(grandparent.inner_html())
+                grandgrandparent= grandparent.locator('xpath=..')
+                #print(grandgrandparent.inner_html())
+                url = grandgrandparent.get_by_role('link').get_attribute('href')
+                print(url)
+                self.page.goto(url)
+
 
             self.browser.close()
 
