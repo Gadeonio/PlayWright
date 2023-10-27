@@ -6,11 +6,7 @@ class IParcerStates:
         self.dicts = []
 
     def parcing(self):
-        for i in self.tags:
-            self.input_tag()
-            states = self.skraping()
-            while (len(states) == len(self.dicts)):
-                self.dicts.append(self.processing(j))
+        pass
 
     def input_tag(self):
         pass
