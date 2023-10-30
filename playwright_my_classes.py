@@ -16,7 +16,7 @@ class UserAgentChrome(IUserAgent):
 
 class IBrowserHeadless:
     def get_headless(self):
-        return False
+        return True
 
 
 class IBrowser:

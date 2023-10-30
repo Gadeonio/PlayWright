@@ -9,6 +9,8 @@ from playwright_my_classes import *
 from command import *
 from parcer_habr import *
 
+import json
+
 '''dict_browser = {'firefox': Playwright.firefox,
                 'chromium': Playwright.chromium,
                 'webkit': Playwright.webkit}'''
@@ -101,6 +103,7 @@ class ParcerStatesHabr(IParcerStates, IBrowser, IUserAgent):
             self.pass_by_tags()
 
             self.print_dict_pandas()
+            self.save_data_in_json_file()
 
             self.browser.close()
 
@@ -111,7 +114,8 @@ class ParcerStatesHabr(IParcerStates, IBrowser, IUserAgent):
             textbox.fill(i)
             textbox.press("Enter")
             #Подумать какой локатор вставить
-            expect(self.page.locator(".tm-hub__title").nth(0)).to_be_enabled()
+            expect(self.page.locator(".tm-pagination")).not_to_be_visible()
+            #expect(self.page.locator(".tm-input-text-decorated__input")).to_be_enabled()
             url = self.page.locator('.tm-hub__title').nth(0).locator('xpath=..').get_by_role(
                 'link').get_attribute('href')
             self.page.goto(url)
@@ -142,6 +146,12 @@ class ParcerStatesHabr(IParcerStates, IBrowser, IUserAgent):
     def print_dict_pandas(self):
         df = pd.DataFrame(self.dicts)
         print(tabulate(df, headers='keys', tablefmt='psql'))
+
+    def save_data_in_json_file(self):
+        with open('states.json', 'w') as f:
+            f.write(json.dumps(self.dicts, indent=2, ensure_ascii=False))
+            print("Файл сохранен")
+
 
 if __name__ == "__main__":
     tags = ["python", "natural language processing", "machine learning",
